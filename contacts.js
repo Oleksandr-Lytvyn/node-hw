@@ -5,7 +5,8 @@ const contactsPath = path.resolve('./db/contacts.json');
 
 async function listContacts() {
   const list = await fs.readFile('./db/contacts.json', 'utf8');
-  console.log(list);
+  const listArray = JSON.parse(list);
+  console.table(listArray);
 }
 
 function getContactById(contactId) {
@@ -14,18 +15,16 @@ function getContactById(contactId) {
       console.log(typeof data);
       const dataArray = JSON.parse(data);
       const res = dataArray.find((option) => option.id === contactId);
-      console.log(res);
+      console.table(res);
     })
     .catch((error) => console.log(error));
 }
 
 async function removeContact(contactId) {
-  console.log(contactId);
   try {
     const data = await fs.readFile('./db/contacts.json', 'utf8');
     const dataArray = JSON.parse(data);
     const res = dataArray.filter((cont) => cont.id !== contactId);
-    // console.log(dataArray);
     await fs.writeFile('./db/contacts.json', JSON.stringify(res), 'utf8');
   } catch (error) {
     console.log(error);
@@ -34,7 +33,7 @@ async function removeContact(contactId) {
 
 async function addContact(name, email, phone) {
   try {
-    const data = await fs.readFile('./db/contacts.json', 'utf8');
+    const data = await fs.readFile('./db/contacts.json');
     const dataArray = JSON.parse(data);
     dataArray.push({
       id: '78',
@@ -42,7 +41,7 @@ async function addContact(name, email, phone) {
       email,
       phone,
     });
-    await fs.writeFile('./db/contacts.json', JSON.stringify(dataArray), 'utf8');
+    await fs.writeFile('./db/contacts.json', JSON.stringify(dataArray));
   } catch (error) {
     console.log(error);
   }

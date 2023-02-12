@@ -1,4 +1,5 @@
 const { Command } = require('commander');
+const { listContacts, getContactById, removeContact, addContact } = require('./contacts');
 const program = new Command();
 program
   .option('-a, --action <type>', 'choose action')
@@ -11,23 +12,22 @@ program.parse(process.argv);
 
 const argv = program.opts();
 
-// TODO: рефакторить
 function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case 'list':
-      console.log('eblup!');
+      listContacts();
       break;
 
     case 'get':
-      // ... id
+      getContactById(id);
       break;
 
     case 'add':
-      // ... name email phone
+      addContact(name, email, phone);
       break;
 
     case 'remove':
-      // ... id
+      removeContact(id);
       break;
 
     default:
@@ -36,8 +36,3 @@ function invokeAction({ action, id, name, email, phone }) {
 }
 
 invokeAction(argv);
-
-// listContacts();
-// getContactById('8');
-// removeContact('10');
-// addContact('Albert', 'alb@mail.com', '47446');
